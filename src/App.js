@@ -33,10 +33,6 @@ const styles = StyleSheet.create({
 });
 
 export default class App extends Component {
-    componentWillMount() {
-        console.log('Mounting...');
-    }
-
     render() {
         return (
             <View style={styles.container}>

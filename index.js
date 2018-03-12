@@ -1,4 +1,4 @@
 import { AppRegistry } from 'react-native';
-import App from './App';
+import AppContainer from './src/AppContainer';
 
-AppRegistry.registerComponent('RNMeteorStarter', () => App);
+AppRegistry.registerComponent('RNMeteorStarter', () => AppContainer);
