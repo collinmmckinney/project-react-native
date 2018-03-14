@@ -33,15 +33,14 @@ const styles = StyleSheet.create({
     }
 });
 
-export default class SignInOrSignUp extends Component {
+export default class SignInScreen extends Component {
     static propTypes = {
         user: PropTypes.shape({
             email: PropTypes.string,
             username: PropTypes.string,
             password: PropTypes.string
         }),
-        signIn: PropTypes.func.isRequired,
-        signUp: PropTypes.func.isRequired
+        onPressSignIn: PropTypes.func.isRequired
     }
 
     static defaultProps = {
@@ -57,20 +56,13 @@ export default class SignInOrSignUp extends Component {
             password: ''
         };
 
-        this.handleSignIn = this.handleSignIn.bind(this);
-        this.handleSignUp = this.handleSignUp.bind(this);
+        this.handlePressSignIn = this.handlePressSignIn.bind(this);
     }
 
-    handleSignIn() {
-        const { signIn } = this.props;
+    handlePressSignIn() {
+        const { onPressSignIn } = this.props;
         const { email, username, password } = this.state;
-        signIn(email, username, password);
-    }
-
-    handleSignUp() {
-        const { signUp } = this.props;
-        const { email, username, password } = this.state;
-        signUp(email, username, password);
+        onPressSignIn(email, username, password);
     }
 
     render() {
@@ -83,26 +75,29 @@ export default class SignInOrSignUp extends Component {
                 <TextInput
                     value={email}
                     onChangeText={value => this.setState({ email: value })}
+                    keyboardType="email-address"
+                    autoCorrect={false}
+                    autoCapitalize="none"
                     style={styles.input}
                 />
                 <TextInput
                     value={username}
                     onChangeText={value => this.setState({ username: value })}
+                    autoCorrect={false}
+                    autoCapitalize="none"
                     style={styles.input}
                 />
                 <TextInput
                     value={password}
                     onChangeText={value => this.setState({ password: value })}
+                    autoCorrect={false}
+                    autoCapitalize="none"
+                    secureTextEntry
                     style={styles.input}
                 />
-                <TouchableHighlight onPress={this.handleSignIn}>
+                <TouchableHighlight onPress={this.handlePressSignIn}>
                     <View style={styles.button}>
                         <Text style={styles.buttonText}>Sign In</Text>
-                    </View>
-                </TouchableHighlight>
-                <TouchableHighlight onPress={this.handleSignUp}>
-                    <View style={styles.button}>
-                        <Text style={styles.buttonText}>Sign Up</Text>
                     </View>
                 </TouchableHighlight>
             </View>

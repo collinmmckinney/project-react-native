@@ -1,23 +1,18 @@
-import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
 import Meteor from 'react-native-meteor';
-import SignInOrSignUpContainer from './src/SignInOrSignUpContainer';
+import { StackNavigator } from 'react-navigation';
+import { HomeContainer, SignInContainer, SignUpContainer } from './src/screens';
 
 const SERVER_URL = 'ws://localhost:3000/websocket';
+Meteor.connect(SERVER_URL);
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#F5FCFF'
+export default StackNavigator({
+    HomeScreen: {
+        screen: HomeContainer
+    },
+    SignInScreen: {
+        screen: SignInContainer
+    },
+    SignUpScreen: {
+        screen: SignUpContainer
     }
-});
-
-export default class App extends Component {
-    componentWillMount() {
-        Meteor.connect(SERVER_URL);
-    }
-
-    render() {
-        return <View style={styles.container}><SignInOrSignUpContainer /></View>;
-    }
-}
+}, { initialRouteName: 'HomeScreen' });
