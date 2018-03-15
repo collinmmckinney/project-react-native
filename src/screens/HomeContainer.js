@@ -1,11 +1,10 @@
-import { createContainer } from 'react-native-meteor';
+import Meteor, { createContainer } from 'react-native-meteor';
 import HomeScreen from './HomeScreen';
 
 export default createContainer(ownProps => ({
-    onPressSignIn: () => {
-        ownProps.navigation.navigate('SignInScreen');
-    },
-    onPressSignUp: () => {
-        ownProps.navigation.navigate('SignUpScreen');
+    user: Meteor.user(),
+    onNullUser: () => {
+        console.log("calling null user");
+        ownProps.navigation.navigate('SignInOrSignUp');
     }
 }), HomeScreen);
