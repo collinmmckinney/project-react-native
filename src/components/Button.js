@@ -46,13 +46,11 @@ export default class SignInScreen extends Component {
     render() {
         const { label } = this.props;
         return (
-            <View style={styles.container}>
-                <TouchableHighlight onPress={this.handlePress}>
-                    <View style={styles.container}>
-                        <Text style={styles.text}>{label}</Text>
-                    </View>
-                </TouchableHighlight>
-            </View>
+            <TouchableHighlight onPress={this.handlePress}>
+                <View style={styles.container}>
+                    <Text style={styles.text}>{label}</Text>
+                </View>
+            </TouchableHighlight>
         );
     }
 }
