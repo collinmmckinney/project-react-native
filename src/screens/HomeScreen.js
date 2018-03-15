@@ -5,6 +5,8 @@ import {
     Text
 } from 'react-native';
 import PropTypes from 'prop-types';
+import { Button } from '../components';
+import { imageData } from '../img';
 
 const styles = StyleSheet.create({
     container: {
@@ -22,11 +24,17 @@ export default class HomeScreen extends Component {
             username: PropTypes.string,
             password: PropTypes.string
         }),
-        onNullUser: PropTypes.func.isRequired
+        cards: PropTypes.arrayOf(PropTypes.shape({
+            text: PropTypes.string,
+            translation: PropTypes.string
+        })),
+        onNullUser: PropTypes.func.isRequired,
+        onAddCardPress: PropTypes.func.isRequired
     }
 
     static defaultProps = {
-        user: undefined
+        user: undefined,
+        cards: []
     }
 
     constructor(props) {
@@ -35,16 +43,24 @@ export default class HomeScreen extends Component {
         if (props.user === null) {
             props.onNullUser();
         }
+
+        this.handleAddCardPress = this.handleAddCardPress.bind(this);
+    }
+
+    handleAddCardPress() {
+        const { onAddCardPress } = this.props;
+        onAddCardPress(imageData);
     }
 
     render() {
-        const { user } = this.props;
+        const { cards } = this.props;
+
+        const cardElements = cards.map(({ text, translation }, i) => <Button key={i} label={`${text} ${translation}`} />);
 
         return (
             <View style={styles.container}>
-                <Text>
-                    {user && user.username}
-                </Text>
+                {cardElements}
+                <Button label="Add Card" onPress={this.handleAddCardPress} />
             </View>
         );
     }
