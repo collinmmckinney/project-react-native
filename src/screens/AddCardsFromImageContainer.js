@@ -3,10 +3,10 @@ import AddCardsFromImageScreen from './AddCardsFromImageScreen';
 
 export default createContainer(ownProps => ({
     imageUri: ownProps.navigation.getParam('imageUri', undefined),
-    onCropImage: (image) => {
-        // Meteor.call('addCard', { imageData }, (err, result) => {
-        //     console.log(err, result);
-        // });
-        ownProps.navigation.navigate('AddCardsFromImage', { imageUri: image.uri });
+    onCropImage: (croppedImageData) => {
+        Meteor.call('addCard', { imageData: croppedImageData }, (err, result) => {
+            console.log(croppedImageData);
+            console.log(err, result);
+        });
     }
 }), AddCardsFromImageScreen);

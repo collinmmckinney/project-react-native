@@ -12,6 +12,15 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'stretch',
         backgroundColor: '#F5FCFF'
+    },
+    camera: {
+        flex: 1
+    },
+    button: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        bottom: 0
     }
 });
 
@@ -44,14 +53,14 @@ export default class TakeOrSelectPhotoScreen extends Component {
             <View style={styles.container}>
                 <CameraKitCamera
                     ref={ref => this.camera = ref}
-                    style={styles.container}
+                    style={styles.camera}
                     cameraOptions={{
                         flashMode: 'auto',
                         focusMode: 'on',
                         zoomMode: 'on'
                     }}
                 />
-                <Button label="Take Photo" onPress={this.handleTakePhotoPress} />
+                <Button label="Take Photo" onPress={this.handleTakePhotoPress} style={styles.button} />
             </View>
         );
     }
