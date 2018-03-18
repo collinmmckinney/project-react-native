@@ -9,7 +9,7 @@ import {
     SettingsContainer
 } from './src/screens';
 
-const SERVER_URL = 'ws://localhost:3000/websocket';
+const SERVER_URL = 'ws://10.0.0.174:3000/websocket';
 Meteor.connect(SERVER_URL);
 
 // Home Tab
