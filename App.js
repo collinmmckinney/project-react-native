@@ -5,7 +5,8 @@ import {
     SignInOrSignUpContainer,
     SignInContainer,
     SignUpContainer,
-    AddContainer,
+    TakeOrSelectPhotoContainer,
+    AddCardsFromImageContainer,
     SettingsContainer
 } from './src/screens';
 
@@ -46,10 +47,13 @@ const AuthStack = SwitchNavigator({
 // Add Tab
 
 const AddStack = StackNavigator({
-    Add: {
-        screen: AddContainer
+    TakeOrSelectPhoto: {
+        screen: TakeOrSelectPhotoContainer
+    },
+    AddCardsFromImage: {
+        screen: AddCardsFromImageContainer
     }
-}, { initialRouteName: 'Add' });
+}, { initialRouteName: 'TakeOrSelectPhoto' });
 
 // Settings Tab
 
