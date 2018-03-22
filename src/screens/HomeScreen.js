@@ -1,54 +1,60 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ScrollView, Alert } from 'react-native';
 import PropTypes from 'prop-types';
-import { Button } from '../components';
+import { Card } from '../components';
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flex: 1
+    },
+    scrollContent: {
         alignItems: 'stretch',
-        justifyContent: 'center',
+        paddingTop: 10,
         backgroundColor: '#F5FCFF'
+    },
+    card: {
+        marginBottom: 10
     }
 });
 
 export default class HomeScreen extends Component {
     static propTypes = {
-        user: PropTypes.shape({
-            email: PropTypes.string,
-            username: PropTypes.string,
-            password: PropTypes.string
-        }),
         cards: PropTypes.arrayOf(PropTypes.shape({
-            text: PropTypes.string,
-            translation: PropTypes.string
+            term: PropTypes.string,
+            termLanguage: PropTypes.string,
+            definition: PropTypes.string,
+            definitionLanguage: PropTypes.string,
+            createdAt: PropTypes.number,
+            lastReviewedAt: PropTypes.number
         })),
+        isConnected: PropTypes.bool,
+        isUserNull: PropTypes.bool,
         onNullUser: PropTypes.func.isRequired
     }
 
     static defaultProps = {
-        user: undefined,
+        isConnected: true,
+        isUserNull: false,
         cards: []
     }
 
     constructor(props) {
         super(props);
 
-        if (props.user === null) {
+        if (!props.isConnected) {
+            Alert.alert('Cannot connect to server.');
+        } else if (props.isUserNull) {
             props.onNullUser();
         }
     }
 
     render() {
         const { cards } = this.props;
-        console.log(cards);
-
-        const cardElements = cards.map(({ text, translation, _id }) => <Button key={_id} label={`${text} ${translation}`} />);
-
+        const cardElements = cards.map(card => <Card key={card._id} {...card} style={styles.card} />);
         return (
-            <View style={styles.container}>
+            <ScrollView contentContainerStyle={styles.scrollContent} style={styles.container}>
                 {cardElements}
-            </View>
+            </ScrollView>
         );
     }
 }

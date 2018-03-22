@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     }
 });
 
-export default class SignInScreen extends Component {
+export default class Button extends Component {
     static propTypes = {
         label: PropTypes.string,
         style: ViewPropTypes.style,

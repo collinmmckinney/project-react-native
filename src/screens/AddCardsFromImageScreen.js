@@ -10,6 +10,7 @@ import {
     PixelRatio
 } from 'react-native';
 import PropTypes from 'prop-types';
+import { HorizontalCardList } from '../components';
 
 const styles = StyleSheet.create({
     container: {
@@ -18,7 +19,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#F5FCFF'
     },
     image: {
-        flex: 1
+        flex: 1,
+        justifyContent: 'flex-end',
+        alignItems: 'stretch'
     },
     cropRectangle: {
         position: 'relative',
@@ -45,11 +48,20 @@ function normalizeRectangle(origin, dimensions) {
 export default class TakeOrSelectPhotoScreen extends Component {
     static propTypes = {
         imageUri: PropTypes.string,
+        cards: PropTypes.arrayOf(PropTypes.shape({
+            term: PropTypes.string,
+            termLanguage: PropTypes.string,
+            definition: PropTypes.string,
+            definitionLanguage: PropTypes.string,
+            createdAt: PropTypes.number,
+            lastReviewedAt: PropTypes.number
+        })),
         onCropImage: PropTypes.func.isRequired
     }
 
     static defaultProps = {
-        imageUri: undefined
+        imageUri: undefined,
+        cards: []
     }
 
     constructor(props) {
@@ -95,7 +107,10 @@ export default class TakeOrSelectPhotoScreen extends Component {
         const { cropRectangleOrigin, cropRectangleDimensions } = this.state;
         const { origin, dimensions } = normalizeRectangle(cropRectangleOrigin, cropRectangleDimensions);
         ImageEditor.cropImage(imageUri, {
-            size: { width: PixelRatio.getPixelSizeForLayoutSize(dimensions.width) * 0.96, height: PixelRatio.getPixelSizeForLayoutSize(dimensions.height) * 0.96},
+            size: {
+                width: PixelRatio.getPixelSizeForLayoutSize(dimensions.width) * 0.96,
+                height: PixelRatio.getPixelSizeForLayoutSize(dimensions.height) * 0.96
+            },
             offset: { x: PixelRatio.getPixelSizeForLayoutSize(origin.x) * 0.96, y: PixelRatio.getPixelSizeForLayoutSize(origin.y) * 0.96 }
         }, (uri) => {
             ImageStore.getBase64ForTag(uri, (croppedImageData) => {
@@ -109,7 +124,7 @@ export default class TakeOrSelectPhotoScreen extends Component {
     }
 
     render() {
-        const { imageUri } = this.props;
+        const { imageUri, cards } = this.props;
         const { cropRectangleOrigin, cropRectangleDimensions } = this.state;
         const { origin, dimensions } = normalizeRectangle(cropRectangleOrigin, cropRectangleDimensions);
 
@@ -127,6 +142,7 @@ export default class TakeOrSelectPhotoScreen extends Component {
                             }
                         ]}
                         />
+                        <HorizontalCardList cards={cards} />
                     </ImageBackground>
                 </Animated.View>
             </View>
