@@ -49,6 +49,12 @@ export default class HomeScreen extends Component {
         }
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.isUserNull) {
+            nextProps.onNullUser();
+        }
+    }
+
     renderCard({ item }) {
         return <Card key={item._id} {...item} />;
     }
