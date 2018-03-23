@@ -24,9 +24,12 @@ const styles = StyleSheet.create({
         alignItems: 'stretch'
     },
     cropRectangle: {
-        position: 'relative',
+        position: 'absolute',
         backgroundColor: 'black',
         opacity: 0.4
+    },
+    footer: {
+        height: 90
     }
 });
 
@@ -130,8 +133,8 @@ export default class TakeOrSelectPhotoScreen extends Component {
 
         return (
             <View style={styles.container}>
-                <Animated.View style={styles.image} {...this.panResponder.panHandlers}>
-                    <ImageBackground source={{ uri: imageUri }} style={styles.image}>
+                <Animated.View style={styles.image}>
+                    <ImageBackground source={{ uri: imageUri }} style={styles.image} {...this.panResponder.panHandlers}>
                         <Animated.View style={[
                             styles.cropRectangle,
                             {
@@ -142,7 +145,9 @@ export default class TakeOrSelectPhotoScreen extends Component {
                             }
                         ]}
                         />
-                        <HorizontalCardList cards={cards} />
+                        <View style={styles.footer}>
+                            <HorizontalCardList cards={cards} />
+                        </View>
                     </ImageBackground>
                 </Animated.View>
             </View>

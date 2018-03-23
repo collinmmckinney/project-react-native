@@ -10,7 +10,8 @@ import {
     SettingsContainer
 } from './src/screens';
 
-const SERVER_URL = 'ws://10.0.0.174:3000/websocket';
+// This is my Mac's local IP, needs to change:
+const SERVER_URL = 'ws://192.168.0.179:3000/websocket';
 Meteor.connect(SERVER_URL);
 
 // Home Tab

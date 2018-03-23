@@ -1,19 +1,28 @@
 import React, { Component } from 'react';
-import { View, ViewPropTypes, StyleSheet } from 'react-native';
+import { View, ViewPropTypes, StyleSheet, FlatList } from 'react-native';
 import PropTypes from 'prop-types';
+import { BasicCard } from '.';
 
 const styles = StyleSheet.create({
     container: {
-        height: 120,
-        alignItems: 'center',
-        justifyContent: 'center',
+        flex: 1,
         backgroundColor: 'white'
+    },
+    card: {
+        width: 100
+    },
+    separator: {
+        width: 10
+    },
+    contentContainer: {
+        alignItems: 'center'
     }
 });
 
 export default class HorizontalCardList extends Component {
     static propTypes = {
         cards: PropTypes.arrayOf(PropTypes.shape({
+            userId: PropTypes.string,
             term: PropTypes.string,
             termLanguage: PropTypes.string,
             definition: PropTypes.string,
@@ -35,6 +44,7 @@ export default class HorizontalCardList extends Component {
         super(props);
 
         this.handleCardPress = this.handleCardPress.bind(this);
+        this.renderCard = this.renderCard.bind(this);
     }
 
     handleCardPress() {
@@ -42,11 +52,25 @@ export default class HorizontalCardList extends Component {
         onCardPress();
     }
 
-    render() {
-        const { cards, style, onCardPress } = this.props;
-
+    renderCard({ item }) {
+        const { onCardPress } = this.props;
+        const { _id, term, definition } = item;
         return (
-            <View style={styles.container} />
+            <BasicCard key={_id} term={term} definition={definition} style={styles.card} onPress={onCardPress} />
+        );
+    }
+
+    render() {
+        const { cards, style } = this.props;
+        return (
+            <FlatList
+                data={cards}
+                renderItem={this.renderCard}
+                horizontal
+                ItemSeparatorComponent={() => <View style={styles.separator} />}
+                contentContainerStyle={styles.contentContainer}
+                style={[styles.container, style]}
+            />
         );
     }
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, ScrollView, Alert } from 'react-native';
+import { View, StyleSheet, FlatList, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import { Card } from '../components';
 
@@ -12,14 +12,15 @@ const styles = StyleSheet.create({
         paddingTop: 10,
         backgroundColor: '#F5FCFF'
     },
-    card: {
-        marginBottom: 10
+    separator: {
+        height: 10
     }
 });
 
 export default class HomeScreen extends Component {
     static propTypes = {
         cards: PropTypes.arrayOf(PropTypes.shape({
+            userId: PropTypes.string,
             term: PropTypes.string,
             termLanguage: PropTypes.string,
             definition: PropTypes.string,
@@ -48,13 +49,21 @@ export default class HomeScreen extends Component {
         }
     }
 
+    renderCard({ item }) {
+        return <Card key={item._id} {...item} />;
+    }
+
     render() {
         const { cards } = this.props;
-        const cardElements = cards.map(card => <Card key={card._id} {...card} style={styles.card} />);
+
         return (
-            <ScrollView contentContainerStyle={styles.scrollContent} style={styles.container}>
-                {cardElements}
-            </ScrollView>
+            <FlatList
+                data={cards}
+                renderItem={this.renderCard}
+                ItemSeparatorComponent={() => <View style={styles.separator} />}
+                contentContainerStyle={styles.scrollContent}
+                style={styles.container}
+            />
         );
     }
 }
