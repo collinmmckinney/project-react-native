@@ -6,7 +6,7 @@ export default createContainer(ownProps => ({
         Accounts.createUser({ email, username, password }, error => console.log(error));
         Meteor.loginWithPassword(username, password, (message) => {
             console.log(message);
-            ownProps.navigation.navigate('Home');
+            ownProps.navigation.navigate('Cards');
         });
     }
 }), SignUpScreen);

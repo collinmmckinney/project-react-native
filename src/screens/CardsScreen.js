@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     }
 });
 
-export default class HomeScreen extends Component {
+export default class CardsScreen extends Component {
     static propTypes = {
         cards: PropTypes.arrayOf(PropTypes.shape({
             userId: PropTypes.string,

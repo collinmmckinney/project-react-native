@@ -1,5 +1,5 @@
 import Meteor, { createContainer } from 'react-native-meteor';
-import HomeScreen from './HomeScreen';
+import CardsScreen from './CardsScreen';
 
 export default createContainer(ownProps => ({
     cards: Meteor.collection('cards').find({ userId: Meteor.userId() }),
@@ -13,4 +13,4 @@ export default createContainer(ownProps => ({
             console.log(err, result);
         });
     }
-}), HomeScreen);
+}), CardsScreen);

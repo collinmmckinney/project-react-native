@@ -5,7 +5,7 @@ export default createContainer(ownProps => ({
     onPressSignIn: (email, username, password) => {
         Meteor.loginWithPassword(username, password, (message) => {
             console.log(message);
-            ownProps.navigation.navigate('Home');
+            ownProps.navigation.navigate('Cards');
         });
     }
 }), SignInScreen);
