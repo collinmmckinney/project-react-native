@@ -54,9 +54,9 @@ export default class HorizontalCardList extends Component {
 
     renderCard({ item }) {
         const { onCardPress } = this.props;
-        const { _id, term, definition } = item;
+        const { term, definition } = item;
         return (
-            <BasicCard key={_id} term={term} definition={definition} style={styles.card} onPress={onCardPress} />
+            <BasicCard term={term} definition={definition} style={styles.card} onPress={onCardPress} />
         );
     }
 
@@ -66,6 +66,7 @@ export default class HorizontalCardList extends Component {
             <FlatList
                 data={cards}
                 renderItem={this.renderCard}
+                keyExtractor={item => item._id}
                 horizontal
                 ItemSeparatorComponent={() => <View style={styles.separator} />}
                 contentContainerStyle={styles.contentContainer}

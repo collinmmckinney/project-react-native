@@ -5,7 +5,8 @@ import { Card } from '../components';
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        backgroundColor: '#F5FCFF'
     },
     scrollContent: {
         alignItems: 'stretch',
@@ -30,13 +31,15 @@ export default class HomeScreen extends Component {
         })),
         isConnected: PropTypes.bool,
         isUserNull: PropTypes.bool,
-        onNullUser: PropTypes.func.isRequired
+        onNullUser: PropTypes.func.isRequired,
+        onCardPress: PropTypes.func
     }
 
     static defaultProps = {
+        cards: [],
         isConnected: true,
         isUserNull: false,
-        cards: []
+        onCardPress: () => {}
     }
 
     constructor(props) {
@@ -47,6 +50,8 @@ export default class HomeScreen extends Component {
         } else if (props.isUserNull) {
             props.onNullUser();
         }
+
+        this.renderCard = this.renderCard.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -56,7 +61,8 @@ export default class HomeScreen extends Component {
     }
 
     renderCard({ item }) {
-        return <Card key={item._id} {...item} />;
+        const { onCardPress } = this.props;
+        return <Card {...item} onPress={() => { onCardPress(item._id); }} />;
     }
 
     render() {
@@ -66,6 +72,7 @@ export default class HomeScreen extends Component {
             <FlatList
                 data={cards}
                 renderItem={this.renderCard}
+                keyExtractor={item => item._id}
                 ItemSeparatorComponent={() => <View style={styles.separator} />}
                 contentContainerStyle={styles.scrollContent}
                 style={styles.container}

@@ -8,8 +8,8 @@ export default createContainer(ownProps => ({
     onNullUser: () => {
         ownProps.navigation.navigate('SignInOrSignUp');
     },
-    onAddCardPress: (imageData) => {
-        Meteor.call('addCard', { imageData }, (err, result) => {
+    onCardPress: (id) => {
+        Meteor.call('deleteCard', { id }, (err, result) => {
             console.log(err, result);
         });
     }
