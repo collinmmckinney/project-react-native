@@ -66,7 +66,7 @@ export default class HorizontalCardList extends Component {
             <FlatList
                 data={cards}
                 renderItem={this.renderCard}
-                keyExtractor={item => item._id}
+                keyExtractor={({ _id }) => _id}
                 horizontal
                 ItemSeparatorComponent={() => <View style={styles.separator} />}
                 contentContainerStyle={styles.contentContainer}

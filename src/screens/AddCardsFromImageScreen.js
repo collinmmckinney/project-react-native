@@ -48,10 +48,10 @@ function normalizeRectangle(origin, dimensions) {
     };
 }
 
-export default class TakeOrSelectPhotoScreen extends Component {
+export default class AddCardsFromImageScreen extends Component {
     static propTypes = {
         imageUri: PropTypes.string,
-        cards: PropTypes.arrayOf(PropTypes.shape({
+        addedCards: PropTypes.arrayOf(PropTypes.shape({
             term: PropTypes.string,
             termLanguage: PropTypes.string,
             definition: PropTypes.string,
@@ -64,7 +64,7 @@ export default class TakeOrSelectPhotoScreen extends Component {
 
     static defaultProps = {
         imageUri: undefined,
-        cards: []
+        addedCards: []
     }
 
     constructor(props) {
@@ -75,27 +75,27 @@ export default class TakeOrSelectPhotoScreen extends Component {
             cropRectangleDimensions: { width: 0, height: 0 }
         };
 
-        this.handleDragStart = this.handleDragStart.bind(this);
-        this.handleDrag = this.handleDrag.bind(this);
-        this.handleDragStop = this.handleDragStop.bind(this);
+        this.handleImageDragStart = this.handleImageDragStart.bind(this);
+        this.handleImageDrag = this.handleImageDrag.bind(this);
+        this.handleImageDragStop = this.handleImageDragStop.bind(this);
 
         this.panResponder = PanResponder.create({
             onMoveShouldSetResponderCapture: () => true,
             onMoveShouldSetPanResponderCapture: () => true,
-            onPanResponderGrant: this.handleDragStart,
-            onPanResponderMove: this.handleDrag,
-            onPanResponderRelease: this.handleDragStop
+            onPanResponderGrant: this.handleImageDragStart,
+            onPanResponderMove: this.handleImageDrag,
+            onPanResponderRelease: this.handleImageDragStop
         });
     }
 
-    handleDragStart(e) {
+    handleImageDragStart(e) {
         this.setState({
             cropRectangleOrigin: ({ x: e.nativeEvent.locationX, y: e.nativeEvent.locationY }),
             cropRectangleDimensions: ({ width: 0, height: 0 })
         });
     }
 
-    handleDrag(e) {
+    handleImageDrag(e) {
         const { cropRectangleOrigin } = this.state;
         this.setState({
             cropRectangleDimensions: ({
@@ -105,7 +105,7 @@ export default class TakeOrSelectPhotoScreen extends Component {
         });
     }
 
-    handleDragStop() {
+    handleImageDragStop() {
         const { imageUri, onCropImage } = this.props;
         const { cropRectangleOrigin, cropRectangleDimensions } = this.state;
         const { origin, dimensions } = normalizeRectangle(cropRectangleOrigin, cropRectangleDimensions);
@@ -127,7 +127,7 @@ export default class TakeOrSelectPhotoScreen extends Component {
     }
 
     render() {
-        const { imageUri, cards } = this.props;
+        const { imageUri, addedCards } = this.props;
         const { cropRectangleOrigin, cropRectangleDimensions } = this.state;
         const { origin, dimensions } = normalizeRectangle(cropRectangleOrigin, cropRectangleDimensions);
 
@@ -146,7 +146,7 @@ export default class TakeOrSelectPhotoScreen extends Component {
                         ]}
                         />
                         <View style={styles.footer}>
-                            <HorizontalCardList cards={cards} />
+                            <HorizontalCardList cards={addedCards} />
                         </View>
                     </ImageBackground>
                 </Animated.View>

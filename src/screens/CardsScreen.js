@@ -46,7 +46,9 @@ export default class CardsScreen extends Component {
         super(props);
 
         if (!props.isConnected) {
-            Alert.alert('Cannot connect to server.');
+            this.connectionTimer = setTimeout(() => {
+                Alert.alert('Cannot connect to server.');
+            }, 2000);
         } else if (props.isUserNull) {
             props.onNullUser();
         }
@@ -57,6 +59,9 @@ export default class CardsScreen extends Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps.isUserNull) {
             nextProps.onNullUser();
+        }
+        if (nextProps.isConnected) {
+            clearTimeout(this.connectionTimer);
         }
     }
 

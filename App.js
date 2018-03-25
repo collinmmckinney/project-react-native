@@ -14,7 +14,7 @@ import {
 import { HeaderButton } from './src/components';
 
 // This is my Mac's local IP, needs to change:
-const SERVER_URL = 'ws://192.168.0.179:3000/websocket';
+const SERVER_URL = 'ws://10.0.0.174:3000/websocket';
 Meteor.connect(SERVER_URL);
 
 const stackNavigationOptions = {
@@ -42,7 +42,10 @@ const CardsStack = StackNavigator({
         screen: TakeOrSelectPhotoContainer
     },
     AddCardsFromImage: {
-        screen: AddCardsFromImageContainer
+        screen: AddCardsFromImageContainer,
+        navigationOptions: ({ navigation }) => ({
+            headerRight: <HeaderButton onPress={() => { navigation.navigate('Cards'); }} />
+        })
     }
 }, { initialRouteName: 'Cards', ...stackNavigationOptions });
 

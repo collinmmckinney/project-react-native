@@ -3,7 +3,7 @@ import {
     View,
     ViewPropTypes,
     StyleSheet,
-    TouchableHighlight
+    TouchableOpacity
 } from 'react-native';
 import PropTypes from 'prop-types';
 
@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
     container: {
         width: 20,
         height: 20,
+        marginRight: 10,
         backgroundColor: 'black'
     }
 });
@@ -40,9 +41,9 @@ export default class HeaderButton extends Component {
     render() {
         const { style } = this.props;
         return (
-            <TouchableHighlight onPress={this.handlePress}>
+            <TouchableOpacity onPress={this.handlePress}>
                 <View style={[styles.container, style]} />
-            </TouchableHighlight>
+            </TouchableOpacity>
         );
     }
 }

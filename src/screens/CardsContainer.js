@@ -3,7 +3,7 @@ import CardsScreen from './CardsScreen';
 
 export default createContainer(ownProps => ({
     cards: Meteor.collection('cards').find({ userId: Meteor.userId() }),
-    isConnected: !(Meteor.status().status === 'failed' || Meteor.status().status === 'offline'),
+    isConnected: Meteor.status().status === 'connected' || Meteor.status().status === 'connecting',
     isUserNull: !Meteor.loggingIn() && Meteor.user() === null,
     onNullUser: () => {
         ownProps.navigation.navigate('SignInOrSignUp');
