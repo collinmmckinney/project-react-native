@@ -49,8 +49,7 @@ export default class BasicCard extends Component {
     }
 
     handlePress() {
-        const { onPress } = this.props;
-        onPress();
+        this.props.onPress();
     }
 
     render() {

@@ -59,12 +59,17 @@ export default class AddCardsFromImageScreen extends Component {
             createdAt: PropTypes.number,
             lastReviewedAt: PropTypes.number
         })),
-        onCropImage: PropTypes.func.isRequired
+        onCropImage: PropTypes.func,
+        onCardPress: PropTypes.func,
+        onComponentWillUnmount: PropTypes.func
     }
 
     static defaultProps = {
         imageUri: undefined,
-        addedCards: []
+        addedCards: [],
+        onCropImage: () => {},
+        onCardPress: () => {},
+        onComponentWillUnmount: () => {}
     }
 
     constructor(props) {
@@ -86,6 +91,10 @@ export default class AddCardsFromImageScreen extends Component {
             onPanResponderMove: this.handleImageDrag,
             onPanResponderRelease: this.handleImageDragStop
         });
+    }
+
+    componentWillUnmount() {
+        this.props.onComponentWillUnmount();
     }
 
     handleImageDragStart(e) {
@@ -127,7 +136,7 @@ export default class AddCardsFromImageScreen extends Component {
     }
 
     render() {
-        const { imageUri, addedCards } = this.props;
+        const { imageUri, addedCards, onCardPress } = this.props;
         const { cropRectangleOrigin, cropRectangleDimensions } = this.state;
         const { origin, dimensions } = normalizeRectangle(cropRectangleOrigin, cropRectangleDimensions);
 
@@ -146,7 +155,7 @@ export default class AddCardsFromImageScreen extends Component {
                         ]}
                         />
                         <View style={styles.footer}>
-                            <HorizontalCardList cards={addedCards} />
+                            <HorizontalCardList cards={addedCards} onCardPress={onCardPress} />
                         </View>
                     </ImageBackground>
                 </Animated.View>

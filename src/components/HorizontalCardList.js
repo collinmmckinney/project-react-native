@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
 export default class HorizontalCardList extends Component {
     static propTypes = {
         cards: PropTypes.arrayOf(PropTypes.shape({
+            _id: PropTypes.string,
             userId: PropTypes.string,
             term: PropTypes.string,
             termLanguage: PropTypes.string,
@@ -48,15 +49,14 @@ export default class HorizontalCardList extends Component {
     }
 
     handleCardPress() {
-        const { onCardPress } = this.props;
-        onCardPress();
+        this.props.onCardPress();
     }
 
     renderCard({ item }) {
         const { onCardPress } = this.props;
-        const { term, definition } = item;
+        const { _id, term, definition } = item;
         return (
-            <BasicCard term={term} definition={definition} style={styles.card} onPress={onCardPress} />
+            <BasicCard term={term} definition={definition} style={styles.card} onPress={() => onCardPress(_id)} />
         );
     }
 

@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
 export default class CardsScreen extends Component {
     static propTypes = {
         cards: PropTypes.arrayOf(PropTypes.shape({
+            _id: PropTypes.string,
             userId: PropTypes.string,
             term: PropTypes.string,
             termLanguage: PropTypes.string,

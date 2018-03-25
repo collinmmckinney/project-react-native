@@ -7,7 +7,9 @@ const state = new ReactiveDict('AddCardsFromImageState');
 state.set('addedCardIds', []);
 
 const container = createContainer(({ navigation }) => {
-    const onHeaderRightPress = () => navigation.navigate('Cards');
+    const onHeaderRightPress = () => {
+        navigation.navigate('Cards');
+    };
     if (!navigation.getParam('onAddCardsFromImageHeaderRightPress')) {
         navigation.setParams({ onAddCardsFromImageHeaderRightPress: onHeaderRightPress });
     }
@@ -29,9 +31,15 @@ const container = createContainer(({ navigation }) => {
             });
         },
         onCardPress: (id) => {
+            const updatedAddedCardIds = state.get('addedCardIds').slice();
+            updatedAddedCardIds.splice(updatedAddedCardIds.indexOf(id), 1);
+            state.set('addedCardIds', updatedAddedCardIds);
             Meteor.call('deleteCard', { id }, (err, result) => {
                 console.log(err, result);
             });
+        },
+        onComponentWillUnmount: () => {
+            state.set('addedCardIds', []);
         }
     };
 }, AddCardsFromImageScreen);
