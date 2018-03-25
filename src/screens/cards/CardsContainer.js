@@ -1,7 +1,7 @@
 import React from 'react';
 import Meteor, { createContainer } from 'react-native-meteor';
 import CardsScreen from './CardsScreen';
-import { HeaderButton } from '../components';
+import { HeaderButton } from '../../components';
 
 const container = createContainer(({ navigation }) => {
     const onHeaderRightPress = () => navigation.navigate('TakeOrSelectPhoto');

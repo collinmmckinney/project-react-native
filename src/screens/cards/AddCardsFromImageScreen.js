@@ -10,7 +10,7 @@ import {
     PixelRatio
 } from 'react-native';
 import PropTypes from 'prop-types';
-import { HorizontalCardList } from '../components';
+import { HorizontalCardList } from '../../components';
 
 const styles = StyleSheet.create({
     container: {

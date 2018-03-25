@@ -1,7 +1,7 @@
 import React from 'react';
 import Meteor, { createContainer, ReactiveDict } from 'react-native-meteor';
 import AddCardsFromImageScreen from './AddCardsFromImageScreen';
-import { HeaderButton } from '../components';
+import { HeaderButton } from '../../components';
 
 const state = new ReactiveDict('AddCardsFromImageState');
 state.set('addedCardIds', []);

@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { CameraKitCamera } from 'react-native-camera-kit';
-import { Button } from '../components';
+import { Button } from '../../components';
 
 const styles = StyleSheet.create({
     container: {

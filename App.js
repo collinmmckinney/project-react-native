@@ -1,25 +1,20 @@
-import React from 'react';
 import Meteor from 'react-native-meteor';
 import { StackNavigator, TabNavigator, SwitchNavigator } from 'react-navigation';
 import {
-    CardsContainer,
     LearnContainer,
+    ReviewContainer,
     SignInOrSignUpContainer,
     SignInContainer,
     SignUpContainer,
+    CardsContainer,
     TakeOrSelectPhotoContainer,
     AddCardsFromImageContainer,
     SettingsContainer
 } from './src/screens';
-import { HeaderButton } from './src/components';
 
 // This is my Mac's local IP, needs to change:
 const SERVER_URL = 'ws://10.0.0.174:3000/websocket';
 Meteor.connect(SERVER_URL);
-
-const stackNavigationOptions = {
-    gestureResponseDistance: 10
-};
 
 // Learn Tab
 
@@ -27,7 +22,11 @@ const LearnStack = StackNavigator({
     Learn: {
         screen: LearnContainer
     },
-}, { initialRouteName: 'Learn', ...stackNavigationOptions });
+    Review: {
+        screen: ReviewContainer,
+        gesturesEnabled: false
+    }
+}, { initialRouteName: 'Learn' });
 
 // Cards Tab
 
@@ -39,9 +38,10 @@ const CardsStack = StackNavigator({
         screen: TakeOrSelectPhotoContainer
     },
     AddCardsFromImage: {
-        screen: AddCardsFromImageContainer
+        screen: AddCardsFromImageContainer,
+        gesturesEnabled: false
     }
-}, { initialRouteName: 'Cards', ...stackNavigationOptions });
+}, { initialRouteName: 'Cards' });
 
 const SignInOrSignUpStack = StackNavigator({
     SignInOrSignUp: {
@@ -53,7 +53,7 @@ const SignInOrSignUpStack = StackNavigator({
     SignUp: {
         screen: SignUpContainer
     }
-}, { initialRouteName: 'SignInOrSignUp', ...stackNavigationOptions });
+}, { initialRouteName: 'SignInOrSignUp' });
 
 const AuthStack = SwitchNavigator({
     Cards: {
@@ -66,15 +66,14 @@ const AuthStack = SwitchNavigator({
 }, {
     initialRouteName: 'Cards',
     mode: 'modal',
-    headerMode: 'none',
-    ...stackNavigationOptions
+    headerMode: 'none'
 });
 
 // Settings Tab
 
 const SettingsStack = StackNavigator({
     Settings: { screen: SettingsContainer }
-}, stackNavigationOptions);
+});
 
 export default TabNavigator({
     LearnTab: { screen: LearnStack, title: 'Learn' },

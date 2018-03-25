@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, FlatList } from 'react-native';
+import { View, StyleSheet, FlatList, Alert } from 'react-native';
 import PropTypes from 'prop-types';
-import { Card } from '../components';
+import { Card } from '../../components';
 
 const styles = StyleSheet.create({
     container: {
@@ -18,9 +18,10 @@ const styles = StyleSheet.create({
     }
 });
 
-export default class LearnScreen extends Component {
+export default class CardsScreen extends Component {
     static propTypes = {
         cards: PropTypes.arrayOf(PropTypes.shape({
+            _id: PropTypes.string,
             userId: PropTypes.string,
             term: PropTypes.string,
             termLanguage: PropTypes.string,
@@ -29,19 +30,40 @@ export default class LearnScreen extends Component {
             createdAt: PropTypes.number,
             lastReviewedAt: PropTypes.number
         })),
+        isConnected: PropTypes.bool,
+        isUserNull: PropTypes.bool,
+        onNullUser: PropTypes.func.isRequired,
         onCardPress: PropTypes.func
     }
 
     static defaultProps = {
         cards: [],
+        isConnected: true,
+        isUserNull: false,
         onCardPress: () => {}
     }
 
     constructor(props) {
         super(props);
 
+        if (!props.isConnected) {
+            this.connectionTimer = setTimeout(() => {
+                Alert.alert('Cannot connect to server.');
+            }, 2000);
+        } else if (props.isUserNull) {
+            props.onNullUser();
+        }
 
         this.renderCard = this.renderCard.bind(this);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.isUserNull) {
+            nextProps.onNullUser();
+        }
+        if (nextProps.isConnected) {
+            clearTimeout(this.connectionTimer);
+        }
     }
 
     renderCard({ item }) {
@@ -56,7 +78,7 @@ export default class LearnScreen extends Component {
             <FlatList
                 data={cards}
                 renderItem={this.renderCard}
-                keyExtractor={item => item._id}
+                keyExtractor={({ _id }) => _id}
                 ItemSeparatorComponent={() => <View style={styles.separator} />}
                 contentContainerStyle={styles.scrollContent}
                 style={styles.container}
