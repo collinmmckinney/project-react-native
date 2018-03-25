@@ -77,7 +77,7 @@ export default class CardsScreen extends Component {
             <FlatList
                 data={cards}
                 renderItem={this.renderCard}
-                keyExtractor={item => item._id}
+                keyExtractor={({ _id }) => _id}
                 ItemSeparatorComponent={() => <View style={styles.separator} />}
                 contentContainerStyle={styles.scrollContent}
                 style={styles.container}

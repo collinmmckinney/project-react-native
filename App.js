@@ -33,19 +33,13 @@ const LearnStack = StackNavigator({
 
 const CardsStack = StackNavigator({
     Cards: {
-        screen: CardsContainer,
-        navigationOptions: ({ navigation }) => ({
-            headerRight: <HeaderButton onPress={() => { navigation.navigate('TakeOrSelectPhoto'); }} />
-        })
+        screen: CardsContainer
     },
     TakeOrSelectPhoto: {
         screen: TakeOrSelectPhotoContainer
     },
     AddCardsFromImage: {
-        screen: AddCardsFromImageContainer,
-        navigationOptions: ({ navigation }) => ({
-            headerRight: <HeaderButton onPress={() => { navigation.navigate('Cards'); }} />
-        })
+        screen: AddCardsFromImageContainer
     }
 }, { initialRouteName: 'Cards', ...stackNavigationOptions });
 
