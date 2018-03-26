@@ -4,7 +4,10 @@ import AddCardsFromImageScreen from './AddCardsFromImageScreen';
 import { HeaderButton } from '../../components';
 
 const state = new ReactiveDict('AddCardsFromImageState');
-state.set('addedCardIds', []);
+function resetState() {
+    state.set('addedCardIds', []);
+}
+resetState();
 
 const container = createContainer(({ navigation }) => {
     const onHeaderRightPress = () => {
@@ -39,7 +42,7 @@ const container = createContainer(({ navigation }) => {
             });
         },
         onComponentWillUnmount: () => {
-            state.set('addedCardIds', []);
+            resetState();
         }
     };
 }, AddCardsFromImageScreen);

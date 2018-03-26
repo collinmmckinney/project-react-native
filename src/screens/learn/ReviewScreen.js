@@ -28,14 +28,18 @@ export default class LearnScreen extends Component {
         })),
         index: PropTypes.number,
         onReviewCardSubmitCorrectAnswer: PropTypes.func,
-        onReviewCardSubmitIncorrectAnswer: PropTypes.func
+        onReviewCardSubmitIncorrectAnswer: PropTypes.func,
+        onFinish: PropTypes.func,
+        onComponentWillUnmount: PropTypes.func
     }
 
     static defaultProps = {
         cards: [],
         index: 0,
         onReviewCardSubmitCorrectAnswer: () => {},
-        onReviewCardSubmitIncorrectAnswer: () => {}
+        onReviewCardSubmitIncorrectAnswer: () => {},
+        onFinish: () => {},
+        onComponentWillUnmount: () => {}
     }
 
     constructor(props) {
@@ -46,8 +50,16 @@ export default class LearnScreen extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.index !== this.props.index) {
-            this.list.scrollToIndex({ index: nextProps.index });
+            if (nextProps.index < nextProps.cards.length) {
+                this.list.scrollToIndex({ index: nextProps.index });
+            } else {
+                nextProps.onFinish();
+            }
         }
+    }
+
+    componentWillUnmount() {
+        this.props.onComponentWillUnmount();
     }
 
     renderCard({ item: { _id, term, definition, } }) {

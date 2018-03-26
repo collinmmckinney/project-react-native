@@ -14,15 +14,19 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         alignItems: 'stretch',
-        justifyContent: 'center',
-        backgroundColor: 'black'
+        justifyContent: 'center'
     },
     questionContainer: {
         flex: 0.5,
+        flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center'
     },
     question: {
+        color: 'white',
+        fontSize: 48
+    },
+    answer: {
         color: 'white',
         fontSize: 48
     },
@@ -58,7 +62,9 @@ export default class ReviewCard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            input: ''
+            input: '',
+            correct: false,
+            incorrect: false
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -69,19 +75,30 @@ export default class ReviewCard extends Component {
         const { input } = this.state;
         if (input === answer) {
             onSubmitCorrectAnswer();
+            this.setState({ correct: true });
+            this.setState({ incorrect: false });
         } else {
             onSubmitIncorrectAnswer();
+            this.setState({ correct: false });
+            this.setState({ incorrect: true });
         }
     }
 
     render() {
         const { question, answer, style } = this.props;
-        const { input } = this.state;
+        const { input, correct, incorrect } = this.state;
+        let backgroundColor = 'black';
+        if (correct) {
+            backgroundColor = 'green';
+        } else if (incorrect) {
+            backgroundColor = 'red';
+        }
 
         return (
-            <View style={[styles.container, style]}>
+            <View style={[styles.container, style, { backgroundColor }]}>
                 <View style={styles.questionContainer}>
                     <Text style={styles.question}>{question}</Text>
+                    { incorrect && <Text style={styles.answer}>{answer}</Text> }
                 </View>
                 <View style={styles.inputContainer}>
                     <TextInput
