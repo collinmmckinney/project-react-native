@@ -24,7 +24,6 @@ export default createContainer(({ navigation }) => ({
                 console.log(result);
             });
         }
-        state.set('index', state.get('index') + 1);
     },
     onReviewCardSubmitIncorrectAnswer: (id) => {
         Meteor.call('reviewCard', { id }, (err, result) => {

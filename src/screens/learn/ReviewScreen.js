@@ -84,7 +84,7 @@ export default class LearnScreen extends Component {
             <FlatList
                 data={cards}
                 renderItem={this.renderCard}
-                keyExtractor={(item, i) => i}
+                keyExtractor={(item, i) => i.toString()}
                 horizontal
                 scrollEnabled={false}
                 pagingEnabled

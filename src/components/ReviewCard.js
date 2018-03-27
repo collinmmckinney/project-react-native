@@ -3,6 +3,7 @@ import {
     View,
     ViewPropTypes,
     StyleSheet,
+    KeyboardAvoidingView,
     Text,
     TextInput
 } from 'react-native';
@@ -17,10 +18,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     questionContainer: {
-        flex: 0.5,
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        paddingTop: 200
     },
     question: {
         color: 'white',
@@ -31,7 +32,7 @@ const styles = StyleSheet.create({
         fontSize: 48
     },
     inputContainer: {
-        flex: 0.5,
+        flex: 1,
         justifyContent: 'center'
     },
     input: {
@@ -94,6 +95,7 @@ export default class ReviewCard extends Component {
     render() {
         const { question, answer, style } = this.props;
         const { input, correct, incorrect } = this.state;
+        const answered = correct || incorrect;
         let backgroundColor = 'black';
         if (correct) {
             backgroundColor = 'green';
@@ -102,22 +104,27 @@ export default class ReviewCard extends Component {
         }
 
         return (
-            <View style={[styles.container, style, { backgroundColor }]}>
+            <KeyboardAvoidingView style={[styles.container, style, { backgroundColor }]} behavior="padding" ver>
                 <View style={styles.questionContainer}>
                     <Text style={styles.question}>{question}</Text>
-                    { incorrect && <Text style={styles.answer}>{answer}</Text> }
+                    { answered && <Text style={styles.answer}>{answer}</Text> }
                 </View>
                 <View style={styles.inputContainer}>
-                    <TextInput
-                        value={input}
-                        onChangeText={value => this.setState({ input: value })}
-                        autoCorrect={false}
-                        autoCapitalize="none"
-                        style={styles.input}
-                    />
+                    { !answered &&
+                        <TextInput
+                            value={input}
+                            onChangeText={value => this.setState({ input: value })}
+                            onSubmitEditing={this.handleSubmit}
+                            autoCorrect={false}
+                            autoCapitalize="none"
+                            returnKeyType="done"
+                            returnKeyLabel="Submit"
+                            style={styles.input}
+                        />
+                    }
                 </View>
-                <Button label={incorrect ? 'Next' : 'Submit'} onPress={incorrect ? this.handlePressNext : this.handleSubmit} />
-            </View>
+                { answered && <Button label="Next" onPress={this.handlePressNext} /> }
+            </KeyboardAvoidingView>
         );
     }
 }

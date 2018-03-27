@@ -29,7 +29,8 @@ const styles = StyleSheet.create({
         opacity: 0.4
     },
     footer: {
-        height: 90
+        height: 90,
+        position: 'relative'
     }
 });
 
