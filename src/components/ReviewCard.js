@@ -48,7 +48,8 @@ export default class ReviewCard extends Component {
         answer: PropTypes.string,
         style: ViewPropTypes.style,
         onSubmitCorrectAnswer: PropTypes.func,
-        onSubmitIncorrectAnswer: PropTypes.func
+        onSubmitIncorrectAnswer: PropTypes.func,
+        onPressNext: PropTypes.func
     }
 
     static defaultProps = {
@@ -56,7 +57,8 @@ export default class ReviewCard extends Component {
         answer: '',
         style: null,
         onSubmitCorrectAnswer: () => {},
-        onSubmitIncorrectAnswer: () => {}
+        onSubmitIncorrectAnswer: () => {},
+        onPressNext: () => {}
     }
 
     constructor(props) {
@@ -68,6 +70,7 @@ export default class ReviewCard extends Component {
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handlePressNext = this.handlePressNext.bind(this);
     }
 
     handleSubmit() {
@@ -82,6 +85,10 @@ export default class ReviewCard extends Component {
             this.setState({ correct: false });
             this.setState({ incorrect: true });
         }
+    }
+
+    handlePressNext() {
+        this.props.onPressNext();
     }
 
     render() {
@@ -109,7 +116,7 @@ export default class ReviewCard extends Component {
                         style={styles.input}
                     />
                 </View>
-                <Button label="Submit" onPress={this.handleSubmit} />
+                <Button label={incorrect ? 'Next' : 'Submit'} onPress={incorrect ? this.handlePressNext : this.handleSubmit} />
             </View>
         );
     }

@@ -52,7 +52,7 @@ export default class LearnScreen extends Component {
 
         return (
             <View style={styles.container}>
-                <Button label="Start Reviews" onPress={onStartReviewPress} />
+                {cardsToReview.length > 0 && <Button label="Start Reviews" onPress={() => { onStartReviewPress(cardsToReview); }} />}
                 <FlatList
                     data={cardsToReview}
                     renderItem={this.renderCard}

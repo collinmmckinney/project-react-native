@@ -29,6 +29,7 @@ export default class LearnScreen extends Component {
         index: PropTypes.number,
         onReviewCardSubmitCorrectAnswer: PropTypes.func,
         onReviewCardSubmitIncorrectAnswer: PropTypes.func,
+        onReviewCardPressNext: PropTypes.func,
         onFinish: PropTypes.func,
         onComponentWillUnmount: PropTypes.func
     }
@@ -38,6 +39,7 @@ export default class LearnScreen extends Component {
         index: 0,
         onReviewCardSubmitCorrectAnswer: () => {},
         onReviewCardSubmitIncorrectAnswer: () => {},
+        onReviewCardPressNext: () => {},
         onFinish: () => {},
         onComponentWillUnmount: () => {}
     }
@@ -69,6 +71,7 @@ export default class LearnScreen extends Component {
                 answer={definition}
                 onSubmitCorrectAnswer={() => { this.props.onReviewCardSubmitCorrectAnswer(_id); }}
                 onSubmitIncorrectAnswer={() => { this.props.onReviewCardSubmitIncorrectAnswer(_id); }}
+                onPressNext={this.props.onReviewCardPressNext}
                 style={styles.card}
             />
         );
@@ -81,7 +84,7 @@ export default class LearnScreen extends Component {
             <FlatList
                 data={cards}
                 renderItem={this.renderCard}
-                keyExtractor={({ _id }) => _id}
+                keyExtractor={(item, i) => i}
                 horizontal
                 scrollEnabled={false}
                 pagingEnabled

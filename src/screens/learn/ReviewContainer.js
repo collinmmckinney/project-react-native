@@ -10,7 +10,9 @@ resetState();
 
 
 export default createContainer(({ navigation }) => ({
-    cards: Meteor.collection('cards').find({ userId: Meteor.userId() }),
+    cards: navigation.state.params.cardsToReview
+        .concat(state.get('missedCardIds')
+            .map(missedCardId => Meteor.collection('cards').findOne({ _id: missedCardId }))),
     index: state.get('index'),
     onReviewCardSubmitCorrectAnswer: (id) => {
         Meteor.call('reviewCard', { id }, (err, result) => {
@@ -37,6 +39,9 @@ export default createContainer(({ navigation }) => ({
         }
         const updatedMissedCards = missedCardIds.concat(id);
         state.set('missedCardIds', updatedMissedCards);
+    },
+    onReviewCardPressNext: () => {
+        state.set('index', state.get('index') + 1);
     },
     onFinish: () => {
         navigation.goBack();
