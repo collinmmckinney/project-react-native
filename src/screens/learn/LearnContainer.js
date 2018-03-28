@@ -104,6 +104,21 @@ export default createContainer(({ navigation }) => ({
         ]
     }),
     onStartReviewPress: (cardsToReview) => {
-        navigation.navigate('Review', { cardsToReview });
+        const reviews = cardsToReview.reduce((r, { _id, term, definition }) => {
+            r.push({
+                cardId: _id,
+                question: term,
+                answer: definition
+            });
+            r.push({
+                cardId: _id,
+                question: definition,
+                answer: term
+            });
+            return r;
+        }, []);
+        const shuffledReviews = reviews.slice();
+        shuffledReviews.sort(() => Math.random() - 0.5);
+        navigation.navigate('Review', { reviews: shuffledReviews });
     }
 }), LearnScreen);

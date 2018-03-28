@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, FlatList, Dimensions } from 'react-native';
+import { StyleSheet, FlatList, Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
 import { ReviewCard } from '../../components';
 
@@ -16,15 +16,10 @@ const styles = StyleSheet.create({
 
 export default class LearnScreen extends Component {
     static propTypes = {
-        cards: PropTypes.arrayOf(PropTypes.shape({
-            _id: PropTypes.string,
-            userId: PropTypes.string,
-            term: PropTypes.string,
-            termLanguage: PropTypes.string,
-            definition: PropTypes.string,
-            definitionLanguage: PropTypes.string,
-            createdAt: PropTypes.number,
-            lastReviewedAt: PropTypes.number
+        reviews: PropTypes.arrayOf(PropTypes.shape({
+            cardId: PropTypes.string,
+            question: PropTypes.string,
+            answer: PropTypes.string
         })),
         index: PropTypes.number,
         onReviewCardSubmitCorrectAnswer: PropTypes.func,
@@ -35,7 +30,7 @@ export default class LearnScreen extends Component {
     }
 
     static defaultProps = {
-        cards: [],
+        reviews: [],
         index: 0,
         onReviewCardSubmitCorrectAnswer: () => {},
         onReviewCardSubmitIncorrectAnswer: () => {},
@@ -52,7 +47,7 @@ export default class LearnScreen extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.index !== this.props.index) {
-            if (nextProps.index < nextProps.cards.length) {
+            if (nextProps.index < nextProps.reviews.length) {
                 this.list.scrollToIndex({ index: nextProps.index });
             } else {
                 nextProps.onFinish();
@@ -64,13 +59,13 @@ export default class LearnScreen extends Component {
         this.props.onComponentWillUnmount();
     }
 
-    renderCard({ item: { _id, term, definition, } }) {
+    renderCard({ item: { cardId, question, answer } }) {
         return (
             <ReviewCard
-                question={term}
-                answer={definition}
-                onSubmitCorrectAnswer={() => { this.props.onReviewCardSubmitCorrectAnswer(_id); }}
-                onSubmitIncorrectAnswer={() => { this.props.onReviewCardSubmitIncorrectAnswer(_id); }}
+                question={question}
+                answer={answer}
+                onSubmitCorrectAnswer={() => { this.props.onReviewCardSubmitCorrectAnswer(cardId); }}
+                onSubmitIncorrectAnswer={() => { this.props.onReviewCardSubmitIncorrectAnswer(cardId); }}
                 onPressNext={this.props.onReviewCardPressNext}
                 style={styles.card}
             />
@@ -78,11 +73,11 @@ export default class LearnScreen extends Component {
     }
 
     render() {
-        const { cards } = this.props;
+        const { reviews } = this.props;
 
         return (
             <FlatList
-                data={cards}
+                data={reviews}
                 renderItem={this.renderCard}
                 keyExtractor={(item, i) => i.toString()}
                 horizontal

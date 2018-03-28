@@ -43,7 +43,7 @@ export default class TakeOrSelectPhotoScreen extends Component {
             cameraAuthorization = await CameraKitCamera.requestDeviceCameraAuthorization();
         }
         if (cameraAuthorization) {
-            const image = await this.camera.capture(true);
+            const image = await this.camera.capture(false);
             onTakePhotoPress(image);
         }
     }

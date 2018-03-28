@@ -10,6 +10,7 @@ import {
     PixelRatio
 } from 'react-native';
 import PropTypes from 'prop-types';
+import Interactable from 'react-native-interactable';
 import { HorizontalCardList } from '../../components';
 
 const styles = StyleSheet.create({
@@ -28,9 +29,21 @@ const styles = StyleSheet.create({
         backgroundColor: 'black',
         opacity: 0.4
     },
-    footer: {
-        height: 90,
-        position: 'relative'
+    footerRow: {
+        height: 90
+    },
+    footerHandleRow: {
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        backgroundColor: 'transparent',
+    },
+    footerHandle: {
+        position: 'relative',
+        top: 10,
+        width: 60,
+        height: 30,
+        borderRadius: 4,
+        backgroundColor: 'black',
     }
 });
 
@@ -94,6 +107,12 @@ export default class AddCardsFromImageScreen extends Component {
         });
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (this.props.addedCards.length === 0 && nextProps.addedCards.length > 0) {
+            this.footer.snapTo({ index: 0 });
+        }
+    }
+
     componentWillUnmount() {
         this.props.onComponentWillUnmount();
     }
@@ -155,9 +174,22 @@ export default class AddCardsFromImageScreen extends Component {
                             }
                         ]}
                         />
-                        <View style={styles.footer}>
-                            <HorizontalCardList cards={addedCards} onCardPress={onCardPress} />
-                        </View>
+                        <Interactable.View
+                            verticalOnly
+                            initialPosition={{ y: 90 }}
+                            snapPoints={[{ y: 0 }, { y: 90 }]}
+                            boundaries={{ top: 0, bottom: 90, bounce: 0.5 }}
+                            ref={component => this.footer = component}
+                        >
+                            <View style={styles.footerContainer}>
+                                <View style={styles.footerHandleRow}>
+                                    <View style={styles.footerHandle} />
+                                </View>
+                                <View style={styles.footerRow}>
+                                    <HorizontalCardList cards={addedCards} onCardPress={onCardPress} />
+                                </View>
+                            </View>
+                        </Interactable.View>
                     </ImageBackground>
                 </Animated.View>
             </View>

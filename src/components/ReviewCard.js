@@ -94,7 +94,7 @@ export default class ReviewCard extends Component {
 
     render() {
         const { question, answer, style } = this.props;
-        const { input, correct, incorrect } = this.state;
+        const { correct, incorrect } = this.state;
         const answered = correct || incorrect;
         let backgroundColor = 'black';
         if (correct) {
@@ -112,10 +112,8 @@ export default class ReviewCard extends Component {
                 <View style={styles.inputContainer}>
                     { !answered &&
                         <TextInput
-                            value={input}
                             onChangeText={value => this.setState({ input: value })}
                             onSubmitEditing={this.handleSubmit}
-                            autoCorrect={false}
                             autoCapitalize="none"
                             returnKeyType="done"
                             returnKeyLabel="Submit"

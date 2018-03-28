@@ -29,8 +29,10 @@ const container = createContainer(({ navigation }) => {
         }),
         onCropImage: (croppedImageData) => {
             Meteor.call('addCardFromImage', { imageData: croppedImageData }, (err, result) => {
-                const updatedAddedCardIds = state.get('addedCardIds').concat(result);
-                state.set('addedCardIds', updatedAddedCardIds);
+                if (result) {
+                    const updatedAddedCardIds = state.get('addedCardIds').concat(result);
+                    state.set('addedCardIds', updatedAddedCardIds);
+                }
             });
         },
         onCardPress: (id) => {
